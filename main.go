@@ -32,15 +32,15 @@ func main() {
 		curTenthSec := curTime.Nanosecond() / 100000000
 		curSec := curTime.Second()
 
-		som := curSec*10 + curTenthSec
+		t := curSec*10 + curTenthSec
 
-		if som >= 570-offset && som < 580-offset {
+		if t >= 570-offset && t < 580-offset {
 			c = cg
-		} else if som >= 580-offset && som < 590-offset {
+		} else if t >= 580-offset && t < 590-offset {
 			c = cy
-		} else if som >= 590-offset && som < 600-offset {
+		} else if t >= 590-offset && t < 600-offset {
 			c = cr
-		} else if (som >= 0-offset && som < 570-offset) || som >= 600-offset {
+		} else if (t >= 0-offset && t < 570-offset) || t >= 600-offset {
 			c = cw
 		}
 
