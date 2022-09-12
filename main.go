@@ -3,15 +3,20 @@ package main
 import (
 	"flag"
 	"math"
+	"runtime"
 	"time"
 
 	"github.com/fatih/color"
 )
 
+var os string
+
 func main() {
 	var offset int
 	flag.IntVar(&offset, "offset", 0, "Offset, default is 0")
 	flag.Parse()
+
+	os = runtime.GOOS
 
 	c := color.New(color.BgBlack, color.FgWhite)
 	c.Println("Close with Ctrl-C.")
@@ -51,9 +56,19 @@ func printGraph(count int, offset int) string {
 	printDot()
 	printSpace()
 	if j == 0 {
-		s += "💥"
+		switch os {
+		case "windows":
+			s += "X"
+		default:
+			s += "💥"
+		}
 	} else {
-		s += "💣"
+		switch os {
+		case "windows":
+			s += "o"
+		default:
+			s += "💣"
+		}
 	}
 	printSpace()
 	printDot()
