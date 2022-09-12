@@ -33,7 +33,7 @@ func main() {
 			c = color.New(color.BgBlack, color.FgWhite)
 		}
 		c.Printf("\r%s:%d %s", curTime.Format("15:04:05"), firstNanoDigit, printGraph(firstNanoDigit, offset))
-		time.Sleep(time.Millisecond * 100)
+		time.Sleep(time.Millisecond * 10)
 	}
 
 }
