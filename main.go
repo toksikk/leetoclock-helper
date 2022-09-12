@@ -13,55 +13,41 @@ var os string
 
 func main() {
 	var offset int
-	flag.IntVar(&offset, "offset", 0, "Offset in tenth of a second, default is 0")
+	flag.IntVar(&offset, "offset", 0, "Offset in tenth of a second (1-9), default is 0")
 	flag.Parse()
 
 	offset = int(math.Abs(float64(offset)))
-
-	colorTargetTenthSec := 10-offset
-	colorTargetSeconds := []int{57,58,59}
-	if offset > 0 {
-		for _, v := range colorTargetSeconds {
-			v--
-		}
-	}
 
 	os = runtime.GOOS
 
 	cw := color.New(color.BgBlack, color.FgWhite)
 	cg := color.New(color.BgBlack, color.FgGreen)
 	cy := color.New(color.BgBlack, color.FgYellow)
-	cb := color.New(color.BgBlack, color.FgRed)
+	cr := color.New(color.BgBlack, color.FgRed)
 	c := cw
 
 	c.Println("Close with Ctrl-C.")
 	for {
 		curTime := time.Now()
-		tenth := curTime.Nanosecond() / 100000000
+		curTenthSec := curTime.Nanosecond() / 100000000
 		curSec := curTime.Second()
-		
-		if (curSec == colorTargetSeconds[0] && tenth == colorTargetTenthSec) {
+
+		som := curSec*10 + curTenthSec
+
+		if som >= 570-offset && som < 580-offset {
 			c = cg
-		} else if (curSec == colorTargetSeconds[1] && tenth == colorTargetTenthSec) {
+		} else if som >= 580-offset && som < 590-offset {
 			c = cy
-		} else if (curSec == colorTargetSeconds[2] && tenth == colorTargetTenthSec) {
-			c = cb
-		} else if !contains(colorTargetSeconds, curSec) {
-			c = color.New(color.BgBlack, color.FgWhite)
+		} else if som >= 590-offset && som < 600-offset {
+			c = cr
+		} else if (som >= 0-offset && som < 570-offset) || som >= 600-offset {
+			c = cw
 		}
-		c.Printf("\r%s.%d %s", curTime.Format("15:04:05"), tenth, printGraph(tenth, offset))
+
+		c.Printf("\r%s.%d | %s |", curTime.Format("15:04:05"), curTenthSec, printGraph(curTenthSec, offset))
 		time.Sleep(time.Millisecond * 50)
 	}
 
-}
-
-func contains(a []int, n int) bool {
-	for _, v := range a {
-		if v == n {
-			return true
-		}
-	}
-	return false
 }
 
 func printGraph(count int, offset int) string {
