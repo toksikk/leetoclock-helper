@@ -13,33 +13,59 @@ var os string
 
 func main() {
 	var offset int
-	flag.IntVar(&offset, "offset", 0, "Offset, default is 0")
+	flag.IntVar(&offset, "offset", 0, "Offset in tenth of a second, default is 0")
 	flag.Parse()
+
+	offset = int(math.Abs(float64(offset)))
+
+	colorTargetTenthSec := 10-offset
+	colorTargetSeconds := []int{57,58,59}
+	if offset > 0 {
+		for _, v := range colorTargetSeconds {
+			v--
+		}
+	}
 
 	os = runtime.GOOS
 
-	c := color.New(color.BgBlack, color.FgWhite)
+	cw := color.New(color.BgBlack, color.FgWhite)
+	cg := color.New(color.BgBlack, color.FgGreen)
+	cy := color.New(color.BgBlack, color.FgYellow)
+	cb := color.New(color.BgBlack, color.FgRed)
+	c := cw
+
 	c.Println("Close with Ctrl-C.")
 	for {
 		curTime := time.Now()
-		firstNanoDigit := curTime.Nanosecond() / 100000000
-		if curTime.Second() == 57 {
-			c = color.New(color.BgBlack, color.FgGreen)
-		} else if curTime.Second() == 58 {
-			c = color.New(color.BgBlack, color.FgYellow)
-		} else if curTime.Second() == 59 {
-			c = color.New(color.BgBlack, color.FgRed)
-		} else {
+		tenth := curTime.Nanosecond() / 100000000
+		curSec := curTime.Second()
+		
+		if (curSec == colorTargetSeconds[0] && tenth == colorTargetTenthSec) {
+			c = cg
+		} else if (curSec == colorTargetSeconds[1] && tenth == colorTargetTenthSec) {
+			c = cy
+		} else if (curSec == colorTargetSeconds[2] && tenth == colorTargetTenthSec) {
+			c = cb
+		} else if !contains(colorTargetSeconds, curSec) {
 			c = color.New(color.BgBlack, color.FgWhite)
 		}
-		c.Printf("\r%s.%d %s", curTime.Format("15:04:05"), firstNanoDigit, printGraph(firstNanoDigit, offset))
+		c.Printf("\r%s.%d %s", curTime.Format("15:04:05"), tenth, printGraph(tenth, offset))
 		time.Sleep(time.Millisecond * 50)
 	}
 
 }
 
+func contains(a []int, n int) bool {
+	for _, v := range a {
+		if v == n {
+			return true
+		}
+	}
+	return false
+}
+
 func printGraph(count int, offset int) string {
-	j := (count + int(math.Abs(float64(offset)))) % 10
+	j := (count + offset) % 10
 	s := ""
 
 	printSpace := func() {
