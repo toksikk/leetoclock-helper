@@ -1,9 +1,10 @@
 package main
 
 import (
-	"flag"
-	"math"
+	"bufio"
+	"os"
 	"runtime"
+	"strconv"
 	"time"
 
 	"github.com/fatih/color"
@@ -12,12 +13,6 @@ import (
 var goos string
 
 func main() {
-	var offset int
-	flag.IntVar(&offset, "offset", 0, "Offset in tenth of a second (1-9), default is 0")
-	flag.Parse()
-
-	offset = int(math.Abs(float64(offset)))
-
 	goos = runtime.GOOS
 
 	cw := color.New(color.BgBlack, color.FgWhite)
@@ -27,6 +22,9 @@ func main() {
 	c := cw
 
 	c.Println("Close with Ctrl-C.")
+
+	offset := getOffsetInput(c)
+
 	for {
 		curTime := time.Now()
 		curTenthSec := curTime.Nanosecond() / 100000000
@@ -48,6 +46,31 @@ func main() {
 		time.Sleep(time.Millisecond * 50)
 	}
 
+}
+
+func getOffsetInput(c *color.Color) int {
+	scanner := bufio.NewScanner(os.Stderr)
+	for {
+		c.Print("Please provide an offset (1-9), default 0: ")
+		for scanner.Scan() {
+			if scanner.Text() == "" {
+				return 0
+			}
+			input, err := strconv.Atoi(scanner.Text())
+			if err != nil {
+				c.Println("Error: Provided input is not a number. Try again...")
+				break
+			}
+			if input >= 1 && input <= 9 {
+				return input
+			}
+			c.Println("Error: Provided input is not in range of 0 to 9. Try again...")
+			break
+		}
+		if err := scanner.Err(); err != nil {
+			c.Fprintln(os.Stderr, "reading standard input:", err)
+		}
+	}
 }
 
 func printGraph(count int, offset int) string {
