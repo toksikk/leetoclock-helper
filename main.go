@@ -9,7 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
-var os string
+var goos string
 
 func main() {
 	var offset int
@@ -18,7 +18,7 @@ func main() {
 
 	offset = int(math.Abs(float64(offset)))
 
-	os = runtime.GOOS
+	goos = runtime.GOOS
 
 	cw := color.New(color.BgBlack, color.FgWhite)
 	cg := color.New(color.BgBlack, color.FgGreen)
@@ -68,14 +68,14 @@ func printGraph(count int, offset int) string {
 	printDot()
 	printSpace()
 	if j == 0 {
-		switch os {
+		switch goos {
 		case "windows":
 			s += "X"
 		default:
 			s += "💥"
 		}
 	} else {
-		switch os {
+		switch goos {
 		case "windows":
 			s += "o"
 		default:
