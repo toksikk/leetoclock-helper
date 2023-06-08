@@ -49,7 +49,7 @@ func main() {
 }
 
 func getOffsetInput(c *color.Color) int {
-	scanner := bufio.NewScanner(os.Stderr)
+	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		c.Print("Please provide an offset (1-9), default 0: ")
 		for scanner.Scan() {
@@ -74,7 +74,18 @@ func getOffsetInput(c *color.Color) int {
 }
 
 func printGraph(count int, offset int) string {
-	j := (count + offset) % 10
+	// this works for everything except offset == 0
+	// j := (count - 1 + offset) % 10
+
+	var j int
+	if offset == 0 {
+		j = count
+	} else {
+		j = (count - 1 + offset) % 10
+	}
+
+	// original
+	// j := (count + offset) % 10
 	s := ""
 
 	printSpace := func() {
@@ -90,7 +101,7 @@ func printGraph(count int, offset int) string {
 
 	printDot()
 	printSpace()
-	if j == 0 {
+	if j == 9 {
 		switch goos {
 		case "windows":
 			s += "X"
