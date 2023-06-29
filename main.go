@@ -15,10 +15,10 @@ var goos string
 func main() {
 	goos = runtime.GOOS
 
-	cw := color.New(color.BgBlack, color.FgWhite)
-	cg := color.New(color.BgBlack, color.FgGreen)
-	cy := color.New(color.BgBlack, color.FgYellow)
-	cr := color.New(color.BgBlack, color.FgRed)
+	cw := color.New(color.FgWhite)
+	cg := color.New(color.FgGreen)
+	cy := color.New(color.FgYellow)
+	cr := color.New(color.FgRed)
 	c := cw
 
 	c.Println("Close with Ctrl-C.")
