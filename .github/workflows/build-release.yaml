@@ -37,13 +37,90 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset
-        id: upload-release-asset
+      - name: upload asset leetoclock-helper-linux-arm64
+        id: asset-leetoclock-helper-linux-arm64
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release/
-          asset_name: leetoclock-helper
+          asset_name: leetoclock-helper-linux-arm64
+          asset_content_type: application/octet-stream
+
+      - name: upload asset leetoclock-helper-linux-386
+        id: asset-leetoclock-helper-linux-386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release/
+          asset_name: leetoclock-helper-linux-386
+          asset_content_type: application/octet-stream
+
+      - name: upload asset leetoclock-helper-linux-arm
+        id: asset-leetoclock-helper-linux-arm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release/
+          asset_name: leetoclock-helper-linux-arm
+          asset_content_type: application/octet-stream
+
+      - name: upload asset leetoclock-helper-linux-amd64
+        id: asset-leetoclock-helper-linux-amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release/
+          asset_name: leetoclock-helper-linux-amd64
+          asset_content_type: application/octet-stream
+
+      - name: upload asset leetoclock-helper-darwin-amd64
+        id: asset-leetoclock-helper-darwin-amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release/
+          asset_name: leetoclock-helper-darwin-amd64
+          asset_content_type: application/octet-stream
+
+      - name: upload asset leetoclock-helper-windows-amd64
+        id: asset-leetoclock-helper-windows-amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release/
+          asset_name: leetoclock-helper-windows-amd64.exe
+          asset_content_type: application/octet-stream
+
+      - name: upload asset leetoclock-helper-windows-386
+        id: asset-leetoclock-helper-windows-386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release/
+          asset_name: leetoclock-helper-windows-386.exe
+          asset_content_type: application/octet-stream
+
+      - name: upload asset leetoclock-helper-windows-arm
+        id: asset-leetoclock-helper-windows-arm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release/
+          asset_name: leetoclock-helper-windows-arm.exe
           asset_content_type: application/octet-stream
